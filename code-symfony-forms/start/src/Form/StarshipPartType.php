@@ -6,6 +6,7 @@ use App\Entity\Starship;
 use App\Entity\StarshipPart;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,6 +22,7 @@ class StarshipPartType extends AbstractType
                 'class' => Starship::class,
                 'choice_label' => 'id',
             ])
+            ->add('createAndAddNew', SubmitType::class)
         ;
     }
 
