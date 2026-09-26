@@ -1,4 +1,7 @@
 {
+    "almtcasts/object-translation-bundle": {
+        "version": "dev-main"
+    },
     "doctrine/deprecations": {
         "version": "1.1",
         "recipe": {

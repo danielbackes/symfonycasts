@@ -4,8 +4,36 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "268c5a5f1df0ba7fdeadced5406c41cc",
+    "content-hash": "ef831441f152b0f8fe6d536f095d901e",
     "packages": [
+        {
+            "name": "almtcasts/object-translation-bundle",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "object-translation-bundle",
+                "reference": "2873b8649092033a804b4655dcdc6ea3e67dc2c1"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "AlmtCasts\\ObjectTranslationBundle\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Backes",
+                    "email": "danielbackes@proton.me"
+                }
+            ],
+            "description": "Translate your entities!",
+            "transport-options": {
+                "relative": true
+            }
+        },
         {
             "name": "composer/semver",
             "version": "3.4.3",
@@ -1531,7 +1559,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "\ud83d\udcd0 Nette Schema: validating data structures against a given Schema.",
+            "description": "📐 Nette Schema: validating data structures against a given Schema.",
             "homepage": "https://nette.org",
             "keywords": [
                 "config",
@@ -1608,7 +1636,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "\ud83d\udee0  Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
+            "description": "🛠  Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
             "homepage": "https://nette.org",
             "keywords": [
                 "array",
@@ -5660,7 +5688,7 @@
             ],
             "authors": [
                 {
-                    "name": "Fran\u00e7ois Zaninotto"
+                    "name": "François Zaninotto"
                 }
             ],
             "description": "Faker is a PHP library that generates fake data for you.",
@@ -7578,7 +7606,7 @@
                     "email": "fabien@symfony.com"
                 },
                 {
-                    "name": "Jean-Fran\u00e7ois Simon",
+                    "name": "Jean-François Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
@@ -8207,7 +8235,7 @@
             ],
             "authors": [
                 {
-                    "name": "K\u00e9vin Dunglas",
+                    "name": "Kévin Dunglas",
                     "email": "dunglas@gmail.com"
                 },
                 {
@@ -8765,7 +8793,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "almtcasts/object-translation-bundle": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -8774,6 +8804,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": {},
-    "platform-overrides": {},
     "plugin-api-version": "2.9.0"
 }
