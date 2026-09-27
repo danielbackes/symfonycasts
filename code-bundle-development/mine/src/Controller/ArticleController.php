@@ -21,8 +21,10 @@ final class ArticleController extends AbstractController
     }
 
     #[Route('/news/{slug:article}', name: 'app_article_show')]
-    public function show(Article $article, ObjectTranslator $translator): Response
-    {
+    public function show(
+        Article $article,
+        ObjectTranslator $translator
+    ): Response {
         $article = $translator->translate($article);
 
         return $this->render('article/show.html.twig', [
