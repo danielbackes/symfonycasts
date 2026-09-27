@@ -28,8 +28,6 @@ final class ObjectTranslator
             return $object;
         }
 
-         //todo
-
-        return $object;
+        return new TranslatedObject($object);
     }
 }
