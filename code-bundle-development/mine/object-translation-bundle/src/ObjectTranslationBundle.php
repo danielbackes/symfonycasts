@@ -2,6 +2,7 @@
 
 namespace AlmtCasts\ObjectTranslationBundle;
 
+use AlmtCasts\ObjectTranslationBundle\Model\Translation;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -20,6 +21,13 @@ final class ObjectTranslationBundle extends AbstractBundle
                 ->stringNode('translation_class')
                     ->info('The class name of your Translation entity.')
                     ->example('App\Entity\Translation')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                    ->validate()
+                        ->ifTrue(fn ($v) => !is_a($v, Translation::class, true))
+                        ->thenInvalid(
+                            'The translation_class %s must extend SymfonyCasts\ObjectTranslationBundle\Model\Translation.'
+                        )
                 ->end()
             ->end()
         ;
