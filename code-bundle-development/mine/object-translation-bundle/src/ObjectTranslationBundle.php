@@ -43,5 +43,9 @@ final class ObjectTranslationBundle extends AbstractBundle
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $container->import('../config/services.php');
+
+        $builder->getDefinition('symfonycasts.object_translator')
+            ->setArgument(2, $config['translation_class'])
+        ;
     }
 }

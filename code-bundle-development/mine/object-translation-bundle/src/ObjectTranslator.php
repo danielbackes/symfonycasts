@@ -9,6 +9,7 @@ final class ObjectTranslator
     public function __construct(
         private LocaleAwareInterface $localeAware,
         private string $defaultLocale,
+        private string $translationClass,
     ) {
     }
 

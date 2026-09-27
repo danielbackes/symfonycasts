@@ -10,6 +10,7 @@ return static function (ContainerConfigurator $container) {
             ->args([
                 service('translation.locale_switcher'),
                 param('kernel.default_locale'),
+                abstract_arg('translation class')
             ])
         ->alias(ObjectTranslator::class, 'symfonycasts.object_translator')
     ;
