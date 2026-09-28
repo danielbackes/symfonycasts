@@ -8,6 +8,11 @@
       "AlmtCasts\\ObjectTranslationBundle\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "AlmtCasts\\ObjectTranslationBundle\\Tests\\": "tests/"
+    }
+  },
   "authors": [
     {
       "name": "Daniel Backes",
