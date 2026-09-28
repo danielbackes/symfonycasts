@@ -19,7 +19,13 @@ final class TranslatedObject
 
     public function __call(string $name, array $arguments): mixed
     {
-        return $this->_inner->$name(...$arguments);
+        $method = $name;
+
+        if (!method_exists($this->_inner, $method)) {
+            $method = 'get'.ucfirst($name);
+        }
+
+        return $this->_inner->$method(...$arguments);
     }
 
     public function __get(string $name): mixed

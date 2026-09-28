@@ -17,6 +17,13 @@ class TranslatedObjectTest extends TestCase
         $this->assertSame('value2', $object->prop2());
         $this->assertSame('value3', $object->getProp3());
     }
+
+    public function testCallUsesGetterIfAvailable()
+    {
+        $object = new TranslatedObject(new ObjectForTranslationStub());
+
+        $this->assertSame('value3', $object->prop3());
+    }
 }
 
 class ObjectForTranslationStub
