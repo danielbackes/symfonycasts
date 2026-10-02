@@ -43,10 +43,29 @@ final class ObjectTranslator
             throw new \LogicException(sprintf('Class "%s" is not translatable.', $object::class));
         }
 
+        $om = $this->doctrine->getManagerForClass($object::class);
+
+        if (!$om) {
+            throw new \LogicException(sprintf('No object manager found for class "%s".', $object::class));
+        }
+
+        $id = $om->getClassMetadata($object::class)
+            ->getIdentifierValues($object)
+        ;
+
+        if (1 !== count($id)) {
+            throw new \LogicException(
+                sprintf('Class "%s" must have a single identifier to be translatable.', $object::class)
+            );
+        }
+
+        $id = reset($id);
+
+
         $translations = $this->doctrine->getRepository($this->translationClass)->findBy([
             'locale' => $locale,
             'objectType' => $type,
-            'objectId' => $object->getId(),
+            'objectId' => $id,
         ]);
 
         $translationValues = [];
