@@ -3,7 +3,11 @@
 namespace AlmtCasts\ObjectTranslationBundle;
 
 use AlmtCasts\ObjectTranslationBundle\Mapping\Translatable;
+use App\Entity\Translation;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 
 final class ObjectTranslator
@@ -15,6 +19,7 @@ final class ObjectTranslator
         private string $defaultLocale,
         private string $translationClass,
         private ManagerRegistry $doctrine,
+        private CacheInterface $cache,
     ) {
         $this->translatedObjects = new \WeakMap();
     }
@@ -66,18 +71,25 @@ final class ObjectTranslator
         $id = reset($id);
 
 
-        $translations = $this->doctrine->getRepository($this->translationClass)->findBy([
-            'locale' => $locale,
-            'objectType' => $type,
-            'objectId' => $id,
-        ]);
+        return $this->cache->get(
+            "object_translation.{$locale}.{$type}.{$id}",
+            function(ItemInterface $item) use ($locale, $type, $id) {
+                if ($this->cache instanceof TagAwareCacheInterface) {
+                    $item->tag(['object-translation', "object-translation-{$type}"]);
+                }
 
-        $translationValues = [];
-
-        foreach ($translations as $translation) {
-            $translationValues[$translation->field] = $translation->value;
-        }
-
-        return $translationValues;
+                /** @var Translation[] $translations */
+                $translations = $this->doctrine->getRepository($this->translationClass)->findBy([
+                    'locale' => $locale,
+                    'objectType' => $type,
+                    'objectId' => $id,
+                ]);
+                $translationValues = [];
+                foreach ($translations as $translation) {
+                    $translationValues[$translation->field] = $translation->value;
+                }
+                return $translationValues;
+            }
+        );
     }
 }
