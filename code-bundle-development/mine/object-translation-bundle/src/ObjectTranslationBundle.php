@@ -44,7 +44,7 @@ final class ObjectTranslationBundle extends AbstractBundle
     {
         $container->import('../config/services.php');
 
-        $builder->getDefinition('symfonycasts.object_translator')
+        $builder->getDefinition('almtcasts.object_translator')
             ->setArgument(2, $config['translation_class'])
         ;
     }

@@ -8,12 +8,15 @@ use Symfony\Contracts\Translation\LocaleAwareInterface;
 
 final class ObjectTranslator
 {
+    private \WeakMap $translatedObjects;
+
     public function __construct(
         private LocaleAwareInterface $localeAware,
         private string $defaultLocale,
         private string $translationClass,
         private ManagerRegistry $doctrine,
     ) {
+        $this->translatedObjects = new \WeakMap();
     }
 
     /**
@@ -31,7 +34,8 @@ final class ObjectTranslator
             return $object;
         }
 
-        return new TranslatedObject($object, $this->translationsFor($object, $locale));
+        return $this->translatedObjects[$object]
+            ??= new TranslatedObject($object, $this->translationsFor($object, $locale));
     }
 
     private function translationsFor(object $object, string $locale): array

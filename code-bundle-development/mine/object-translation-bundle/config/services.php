@@ -7,15 +7,16 @@ use AlmtCasts\ObjectTranslationBundle\Twig\ObjectTranslatorExtension;
 
 return static function (ContainerConfigurator $container) {
     $container->services()
-        ->set('symfonycasts.object_translator', ObjectTranslator::class)
+        ->set('almtcasts.object_translator', ObjectTranslator::class)
             ->args([
                 service('translation.locale_switcher'),
                 param('kernel.default_locale'),
                 abstract_arg('translation class'),
                 service('doctrine')
             ])
-        ->set('.symfonycasts.object_translator.twig_extension', ObjectTranslatorExtension::class)
+            ->tag('twig.runtime')
+        ->set('.almtcasts.object_translator.twig_extension', ObjectTranslatorExtension::class)
             ->tag('twig.extension')
-        ->alias(ObjectTranslator::class, 'symfonycasts.object_translator')
+        ->alias(ObjectTranslator::class, 'almtcasts.object_translator')
     ;
 };
