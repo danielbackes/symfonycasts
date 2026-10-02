@@ -2,9 +2,6 @@
 
 namespace AlmtCasts\ObjectTranslationBundle;
 
-use AlmtCasts\ObjectTranslationBundle\Mapping\Translatable;
-use App\Entity\Translation;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -19,8 +16,7 @@ final class ObjectTranslator
     public function __construct(
         private LocaleAwareInterface $localeAware,
         private string $defaultLocale,
-        private string $translationClass,
-        private ManagerRegistry $doctrine,
+        private TranslatableMappingManager $mappingManager,
         ?CacheInterface $cache = null,
         private ?int $cacheTtl = null,
     ) {
@@ -50,31 +46,9 @@ final class ObjectTranslator
 
     private function translationsFor(object $object, string $locale): array
     {
-        $class = new \ReflectionClass($object);
-        $type = $class->getAttributes(Translatable::class)[0]?->newInstance()->name ?? null;
+        $type = $this->mappingManager->translatableTypeFor($object);
 
-        if (!$type) {
-            throw new \LogicException(sprintf('Class "%s" is not translatable.', $object::class));
-        }
-
-        $om = $this->doctrine->getManagerForClass($object::class);
-
-        if (!$om) {
-            throw new \LogicException(sprintf('No object manager found for class "%s".', $object::class));
-        }
-
-        $id = $om->getClassMetadata($object::class)
-            ->getIdentifierValues($object)
-        ;
-
-        if (1 !== count($id)) {
-            throw new \LogicException(
-                sprintf('Class "%s" must have a single identifier to be translatable.', $object::class)
-            );
-        }
-
-        $id = reset($id);
-
+        $id = $this->mappingManager->idFor($object);
 
         return $this->cache->get(
             "object_translation.{$locale}.{$type}.{$id}",
@@ -87,17 +61,7 @@ final class ObjectTranslator
                     $item->expiresAfter($this->cacheTtl);
                 }
 
-                /** @var Translation[] $translations */
-                $translations = $this->doctrine->getRepository($this->translationClass)->findBy([
-                    'locale' => $locale,
-                    'objectType' => $type,
-                    'objectId' => $id,
-                ]);
-                $translationValues = [];
-                foreach ($translations as $translation) {
-                    $translationValues[$translation->field] = $translation->value;
-                }
-                return $translationValues;
+                return $this->mappingManager->translationsFor($locale, $type, $id);
             }
         );
     }

@@ -27,7 +27,8 @@ final class ObjectTranslationBundle extends AbstractBundle
                     ->validate()
                         ->ifTrue(fn ($v) => !is_a($v, Translation::class, true))
                         ->thenInvalid(
-                            'The translation_class %s must extend SymfonyCasts\ObjectTranslationBundle\Model\Translation.'
+                            'The translation_class %s must extend '
+                            .'AlmtCasts\ObjectTranslationBundle\Model\Translation.'
                         )
                     ->end()
                 ->end()
@@ -62,11 +63,12 @@ final class ObjectTranslationBundle extends AbstractBundle
 
         $objectTranslatorDef = $builder->getDefinition('almtcasts.object_translator');
 
-        $objectTranslatorDef->setArgument(2, $config['translation_class']);
-
         if ($config['cache']['enabled']) {
-            $objectTranslatorDef->setArgument(4, new Reference($config['cache']['pool']));
-            $objectTranslatorDef->setArgument(5, $config['cache']['ttl']);
+            $objectTranslatorDef->setArgument(3, new Reference($config['cache']['pool']));
+            $objectTranslatorDef->setArgument(4, $config['cache']['ttl']);
         }
+
+        $builder->getDefinition('.almtcasts.object_translator.mapping_manager')
+            ->setArgument(0, $config['translation_class']);
     }
 }

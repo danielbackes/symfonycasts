@@ -3,6 +3,7 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use AlmtCasts\ObjectTranslationBundle\ObjectTranslator;
+use AlmtCasts\ObjectTranslationBundle\TranslatableMappingManager;
 use AlmtCasts\ObjectTranslationBundle\Twig\ObjectTranslatorExtension;
 
 return static function (ContainerConfigurator $container) {
@@ -11,12 +12,17 @@ return static function (ContainerConfigurator $container) {
             ->args([
                 service('translation.locale_switcher'),
                 param('kernel.default_locale'),
+                service('.almtcasts.object_translator.mapping_manager'),
+            ])
+            ->tag('twig.runtime')
+
+        ->alias(ObjectTranslator::class, 'almtcasts.object_translator')
+        ->set('.almtcasts.object_translator.mapping_manager', TranslatableMappingManager::class)
+            ->args([
                 abstract_arg('translation class'),
                 service('doctrine'),
             ])
-            ->tag('twig.runtime')
         ->set('.almtcasts.object_translator.twig_extension', ObjectTranslatorExtension::class)
             ->tag('twig.extension')
-        ->alias(ObjectTranslator::class, 'almtcasts.object_translator')
     ;
 };
