@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappi
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 final class ObjectTranslationBundle extends AbstractBundle
@@ -28,6 +29,21 @@ final class ObjectTranslationBundle extends AbstractBundle
                         ->thenInvalid(
                             'The translation_class %s must extend SymfonyCasts\ObjectTranslationBundle\Model\Translation.'
                         )
+                    ->end()
+                ->end()
+                ->arrayNode('cache')
+                    ->info('Cache settings for object translations.')
+                    ->canBeDisabled()
+                    ->children()
+                        ->stringNode('pool')
+                            ->info('The cache pool to use for storing object translations.')
+                            ->defaultValue('cache.app')
+                        ->end()
+                        ->integerNode('ttl')
+                            ->info('The time-to-live for cached translations, in seconds. null for no expiration.')
+                            ->defaultNull()
+                        ->end()
+                    ->end()
                 ->end()
             ->end()
         ;
@@ -44,8 +60,13 @@ final class ObjectTranslationBundle extends AbstractBundle
     {
         $container->import('../config/services.php');
 
-        $builder->getDefinition('almtcasts.object_translator')
-            ->setArgument(2, $config['translation_class'])
-        ;
+        $objectTranslatorDef = $builder->getDefinition('almtcasts.object_translator');
+
+        $objectTranslatorDef->setArgument(2, $config['translation_class']);
+
+        if ($config['cache']['enabled']) {
+            $objectTranslatorDef->setArgument(4, new Reference($config['cache']['pool']));
+            $objectTranslatorDef->setArgument(5, $config['cache']['ttl']);
+        }
     }
 }

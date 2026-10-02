@@ -5,6 +5,7 @@ namespace AlmtCasts\ObjectTranslationBundle;
 use AlmtCasts\ObjectTranslationBundle\Mapping\Translatable;
 use App\Entity\Translation;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
@@ -12,6 +13,7 @@ use Symfony\Contracts\Translation\LocaleAwareInterface;
 
 final class ObjectTranslator
 {
+    private CacheInterface $cache;
     private \WeakMap $translatedObjects;
 
     public function __construct(
@@ -19,8 +21,11 @@ final class ObjectTranslator
         private string $defaultLocale,
         private string $translationClass,
         private ManagerRegistry $doctrine,
-        private CacheInterface $cache,
+        ?CacheInterface $cache = null,
+        private ?int $cacheTtl = null,
     ) {
+        $this->cache = $cache ?? new NullAdapter();
+
         $this->translatedObjects = new \WeakMap();
     }
 
@@ -76,6 +81,10 @@ final class ObjectTranslator
             function(ItemInterface $item) use ($locale, $type, $id) {
                 if ($this->cache instanceof TagAwareCacheInterface) {
                     $item->tag(['object-translation', "object-translation-{$type}"]);
+                }
+
+                if ($this->cacheTtl) {
+                    $item->expiresAfter($this->cacheTtl);
                 }
 
                 /** @var Translation[] $translations */

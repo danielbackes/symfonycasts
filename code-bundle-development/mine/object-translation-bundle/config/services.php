@@ -13,7 +13,6 @@ return static function (ContainerConfigurator $container) {
                 param('kernel.default_locale'),
                 abstract_arg('translation class'),
                 service('doctrine'),
-                service('cache.app')
             ])
             ->tag('twig.runtime')
         ->set('.almtcasts.object_translator.twig_extension', ObjectTranslatorExtension::class)
