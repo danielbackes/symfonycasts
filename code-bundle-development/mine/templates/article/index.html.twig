@@ -6,6 +6,7 @@
         <h1 class="text-4xl lg:text-7xl text-white mt-3 lg:mt-6 mb-12 text-center">{{ 'article.index.slogan'|trans }}</h1>
         <div>
             {% for article in articles %}
+            {% set article = article|translate_object %}
             <div class="bg-white my-2 rounded-2xl p-5">
                 <a href="{{ path('app_article_show', {slug: article.slug}) }}">
                     <div class="flex flex-col md:flex-row">
