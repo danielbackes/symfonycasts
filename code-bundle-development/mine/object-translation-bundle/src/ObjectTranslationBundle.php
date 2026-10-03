@@ -16,7 +16,6 @@ final class ObjectTranslationBundle extends AbstractBundle
 
     public function configure(DefinitionConfigurator $definition): void
     {
-
         $definition->rootNode()
             ->children()
                 ->scalarNode('translation_class')

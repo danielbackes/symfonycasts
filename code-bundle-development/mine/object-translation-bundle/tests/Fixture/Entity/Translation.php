@@ -2,8 +2,8 @@
 
 namespace AlmtCasts\ObjectTranslationBundle\Tests\Fixture\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AlmtCasts\ObjectTranslationBundle\Model\Translation as BaseTranslation;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 class Translation extends BaseTranslation

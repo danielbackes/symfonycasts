@@ -10,7 +10,7 @@ namespace AlmtCasts\ObjectTranslationBundle;
 final class TranslatedObject
 {
     /**
-     * @param T $_inner
+     * @param T                    $_inner
      * @param array<string,string> $_translations
      */
     public function __construct(

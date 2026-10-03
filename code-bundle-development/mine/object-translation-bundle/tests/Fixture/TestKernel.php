@@ -7,11 +7,11 @@ use AlmtCasts\ObjectTranslationBundle\Tests\Fixture\Entity\Translation;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel;
 use Zenstruck\Foundry\ZenstruckFoundryBundle;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class TestKernel extends Kernel
 {
@@ -28,7 +28,7 @@ class TestKernel extends Kernel
     private function configureContainer(
         ContainerConfigurator $container,
         LoaderInterface $loader,
-        ContainerBuilder $builder
+        ContainerBuilder $builder,
     ): void {
         $container->extension('framework', [
             'test' => true,

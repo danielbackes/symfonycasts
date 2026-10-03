@@ -2,9 +2,9 @@
 
 namespace AlmtCasts\ObjectTranslationBundle\Tests\Fixture\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AlmtCasts\ObjectTranslationBundle\Mapping\Translatable;
 use AlmtCasts\ObjectTranslationBundle\Mapping\TranslatableProperty;
+use Doctrine\ORM\Mapping as ORM;
 
 #[Translatable('entity1')]
 #[ORM\Entity]

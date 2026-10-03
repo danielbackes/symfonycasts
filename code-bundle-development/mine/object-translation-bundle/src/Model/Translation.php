@@ -2,7 +2,6 @@
 
 namespace AlmtCasts\ObjectTranslationBundle\Model;
 
-
 abstract class Translation
 {
     public string $objectType;

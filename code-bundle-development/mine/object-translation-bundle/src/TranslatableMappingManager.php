@@ -49,9 +49,7 @@ final class TranslatableMappingManager
         ;
 
         if (1 !== count($id)) {
-            throw new \LogicException(
-                sprintf('Class "%s" must have a single identifier to be translatable.', $object::class)
-            );
+            throw new \LogicException(sprintf('Class "%s" must have a single identifier to be translatable.', $object::class));
         }
 
         return reset($id);
@@ -89,7 +87,6 @@ final class TranslatableMappingManager
             }
         }
     }
-
 
     public function translatableValuesFor(object $object): iterable
     {

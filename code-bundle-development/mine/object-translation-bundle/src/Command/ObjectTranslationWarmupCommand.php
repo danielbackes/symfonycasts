@@ -49,5 +49,4 @@ final class ObjectTranslationWarmupCommand extends Command
 
         return self::SUCCESS;
     }
-
 }

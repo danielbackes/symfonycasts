@@ -38,10 +38,10 @@ final class ObjectTranslator
         }
 
         return new TranslatedObject($object, $this->translationsFor(
-                $object,
-                $locale,
-                $options['force_refresh'] ?? false,
-            ))
+            $object,
+            $locale,
+            $options['force_refresh'] ?? false,
+        ))
         ;
     }
 
@@ -53,7 +53,7 @@ final class ObjectTranslator
 
         return $this->cache->get(
             "object_translation.{$locale}.{$type}.{$id}",
-            function(ItemInterface $item) use ($locale, $type, $id) {
+            function (ItemInterface $item) use ($locale, $type, $id) {
                 if ($this->cache instanceof TagAwareCacheInterface) {
                     $item->tag(['object-translation', "object-translation-{$type}"]);
                 }
