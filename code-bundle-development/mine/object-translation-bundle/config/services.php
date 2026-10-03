@@ -2,6 +2,7 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use AlmtCasts\ObjectTranslationBundle\Command\ObjectTranslationWarmupCommand;
 use AlmtCasts\ObjectTranslationBundle\ObjectTranslator;
 use AlmtCasts\ObjectTranslationBundle\TranslatableMappingManager;
 use AlmtCasts\ObjectTranslationBundle\Twig\ObjectTranslatorExtension;
@@ -22,6 +23,14 @@ return static function (ContainerConfigurator $container) {
                 abstract_arg('translation class'),
                 service('doctrine'),
             ])
+        ->set('.almtcasts.object_translator.warmup_command', ObjectTranslationWarmupCommand::class)
+            ->args([
+                service('almtcasts.object_translator'),
+                service('.almtcasts.object_translator.mapping_manager'),
+                service('translation.locale_switcher'),
+                param('kernel.enabled_locales'),
+            ])
+            ->tag('console.command')
         ->set('.almtcasts.object_translator.twig_extension', ObjectTranslatorExtension::class)
             ->tag('twig.extension')
     ;
