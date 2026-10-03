@@ -19,7 +19,7 @@ final class ObjectTranslationBundle extends AbstractBundle
 
         $definition->rootNode()
             ->children()
-                ->stringNode('translation_class')
+                ->scalarNode('translation_class')
                     ->info('The class name of your Translation entity.')
                     ->example('App\Entity\Translation')
                     ->isRequired()
@@ -36,7 +36,7 @@ final class ObjectTranslationBundle extends AbstractBundle
                     ->info('Cache settings for object translations.')
                     ->canBeDisabled()
                     ->children()
-                        ->stringNode('pool')
+                        ->scalarNode('pool')
                             ->info('The cache pool to use for storing object translations.')
                             ->defaultValue('cache.app')
                         ->end()

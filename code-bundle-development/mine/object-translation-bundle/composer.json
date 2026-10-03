@@ -20,8 +20,9 @@
     }
   ],
   "require": {
-    "symfony/framework-bundle": "^7.4",
-    "symfony/translation": "^7.4",
+    "php": ">=8.2",
+    "symfony/framework-bundle": "^6.4|^7.4",
+    "symfony/translation": "^6.4|^7.4",
     "doctrine/doctrine-bundle": "^2.19",
     "doctrine/orm": "^3.7"
   },
@@ -29,5 +30,7 @@
     "phpunit/phpunit": "^9.6",
     "symfony/phpunit-bridge": "^8.1",
     "zenstruck/foundry": "^2.13"
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
