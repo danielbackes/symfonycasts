@@ -3,6 +3,7 @@
 namespace AlmtCasts\ObjectTranslationBundle;
 
 use AlmtCasts\ObjectTranslationBundle\Mapping\Translatable;
+use AlmtCasts\ObjectTranslationBundle\Mapping\TranslatableProperty;
 use AlmtCasts\ObjectTranslationBundle\Model\Translation;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\Proxy;
@@ -86,6 +87,20 @@ final class TranslatableMappingManager
 
                 yield from $om->getRepository($class)->findAll();
             }
+        }
+    }
+
+
+    public function translatableValuesFor(object $object): iterable
+    {
+        $class = new \ReflectionClass($object);
+
+        foreach ($class->getProperties() as $property) {
+            if (!$property->getAttributes(TranslatableProperty::class)) {
+                continue;
+            }
+
+            yield $property->getName() => $property->getValue($object);
         }
     }
 }
