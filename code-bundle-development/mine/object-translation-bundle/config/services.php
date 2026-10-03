@@ -7,6 +7,7 @@ use AlmtCasts\ObjectTranslationBundle\Command\ObjectTranslationWarmupCommand;
 use AlmtCasts\ObjectTranslationBundle\ObjectTranslator;
 use AlmtCasts\ObjectTranslationBundle\TranslatableMappingManager;
 use AlmtCasts\ObjectTranslationBundle\Twig\ObjectTranslatorExtension;
+use AlmtCasts\ObjectTranslationBundle\Command\ObjectTranslationImportCommand;
 
 return static function (ContainerConfigurator $container) {
     $container->services()
@@ -33,6 +34,11 @@ return static function (ContainerConfigurator $container) {
             ])
             ->tag('console.command')
         ->set('.almtcasts.object_translator.export_command', ObjectTranslationExportCommand::class)
+            ->args([
+                service('.almtcasts.object_translator.mapping_manager'),
+            ])
+            ->tag('console.command')
+        ->set('.almtcasts.object_translator.import_command', ObjectTranslationImportCommand::class)
             ->args([
                 service('.almtcasts.object_translator.mapping_manager'),
             ])

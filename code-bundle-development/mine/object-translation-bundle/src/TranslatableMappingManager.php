@@ -103,4 +103,29 @@ final class TranslatableMappingManager
             yield $property->getName() => $property->getValue($object);
         }
     }
+
+    public function upsert(string $type, string $id, string $locale, string $field, string $value): void
+    {
+        $om = $this->doctrine->getManagerForClass($this->translationClass);
+
+        $translation = $om->getRepository($this->translationClass)->findOneBy([
+            'objectType' => $type,
+            'objectId' => $id,
+            'locale' => $locale,
+            'field' => $field,
+        ]);
+
+        if (!$translation) {
+            $translation = new ($this->translationClass)();
+            $translation->objectType = $type;
+            $translation->objectId = $id;
+            $translation->locale = $locale;
+            $translation->field = $field;
+        }
+
+        $translation->value = $value;
+
+        $om->persist($translation);
+        $om->flush();
+    }
 }
