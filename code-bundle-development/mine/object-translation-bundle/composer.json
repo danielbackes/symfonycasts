@@ -30,7 +30,9 @@
     "phpunit/phpunit": "^9.6",
     "symfony/phpunit-bridge": "^8.1",
     "zenstruck/foundry": "^2.13",
-    "php-cs-fixer/shim": "^3.95"
+    "php-cs-fixer/shim": "^3.95",
+    "phpstan/phpstan": "^2.2",
+    "twig/twig": "^3.30"
   },
   "minimum-stability": "dev",
   "prefer-stable": true
